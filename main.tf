@@ -15,16 +15,12 @@ terraform {
 provider "aws" {
   profile    = "me"
   region     = "us-west-2"
-  access_key = "AKIAVQZXNQR5L5A3644U"
-  secret_key = "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"
 }
 
 provider "aws" {
   alias      = "east"
   profile    = "me"
   region     = "us-east-2"
-  access_key = "AKIAVQZXNQR5L5A3644U"
-  secret_key = "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"
 }
 
 ########################
