@@ -5,4 +5,4 @@ metadata:
 spec:
   containers:
   - name: rds-psycopg2
-    image: jonassteinberg1/rds-psycopg2:1.0.1
+    image: jonassteinberg1/rds-psycopg2:1.0.5

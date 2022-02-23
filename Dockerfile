@@ -5,6 +5,7 @@ FROM python:3.9-slim-buster
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
+    procps \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /code
@@ -17,6 +18,6 @@ RUN python3.9 -m pip install --no-cache-dir --upgrade \
     wheel
 RUN python3.9 -m pip install --no-cache-dir \
     -r requirements.txt
-COPY . .
+COPY app.py .
 
-CMD ["python3.9", "app.py"]
+CMD ["python3.9", "-u", "app.py"]
