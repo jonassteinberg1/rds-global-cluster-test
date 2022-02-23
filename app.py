@@ -17,7 +17,7 @@ while True:
         conn = psycopg2.connect(
             dbname = "test_db",
             user = "jonas",
-            host = "inor-version-upgrade-test-aurora-cluster-primary.cluster-c4lg5bob8cbp.us-west-2.rds.amazonaws.com",
+            host = "minor-version-upgrade-test-aurora-cluster-primary.cluster-c4lg5bob8cbp.us-west-2.rds.amazonaws.com",
             password = "password123456789"
         )
     except psycopg2.OperationalError as e:
