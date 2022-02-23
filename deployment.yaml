@@ -5,7 +5,7 @@ metadata:
   labels:
     app: rds-psycopg2
 spec:
-  replicas: 10
+  replicas: 0
   selector:
     matchLabels:
       app: rds-psycopg2
@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - name: rds-psycopg2
-        image: jonassteinberg1/rds-psycopg2:1.0.6
+        image: jonassteinberg1/rds-psycopg2:1.0.7
