@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rds-psycopg2-deployment
+  labels:
+    app: rds-psycopg2
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: rds-psycopg2
+  template:
+    metadata:
+      labels:
+        app: rds-psycopg2
+    spec:
+      containers:
+      - name: rds-psycopg2
+        image: jonassteinberg1/rds-psycopg2:1.0.5

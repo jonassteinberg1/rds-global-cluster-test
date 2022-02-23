@@ -13,14 +13,14 @@ terraform {
 }
 
 provider "aws" {
-  profile    = "me"
-  region     = "us-west-2"
+  profile = "me"
+  region  = "us-west-2"
 }
 
 provider "aws" {
-  alias      = "east"
-  profile    = "me"
-  region     = "us-east-2"
+  alias   = "east"
+  profile = "me"
+  region  = "us-east-2"
 }
 
 ########################
@@ -97,6 +97,11 @@ variable "rds_engine_version" {
   default     = "11.7"
 }
 
+variable "rds_performance_insights_enabled" {
+  description = "enable PI switch"
+  default     = "true"
+}
+
 ########################
 ## Cluster
 ########################
@@ -140,14 +145,15 @@ resource "aws_rds_cluster" "aurora_cluster_primary" {
 
 resource "aws_rds_cluster_instance" "aurora_cluster_instance_primary" {
 
-  count                = length(var.vpc_rds_subnet_ids_primary)
-  engine               = aws_rds_global_cluster.aurora_cluster_global.engine
-  engine_version       = aws_rds_global_cluster.aurora_cluster_global.engine_version
-  identifier           = "${var.environment_name}-aurora-instance-primary-${count.index}"
-  cluster_identifier   = aws_rds_cluster.aurora_cluster_primary.id
-  instance_class       = "db.r4.large"
-  db_subnet_group_name = aws_db_subnet_group.aurora_subnet_group_primary.name
-  publicly_accessible  = true
+  count                        = length(var.vpc_rds_subnet_ids_primary)
+  engine                       = aws_rds_global_cluster.aurora_cluster_global.engine
+  engine_version               = aws_rds_global_cluster.aurora_cluster_global.engine_version
+  identifier                   = "${var.environment_name}-aurora-instance-primary-${count.index}"
+  cluster_identifier           = aws_rds_cluster.aurora_cluster_primary.id
+  instance_class               = "db.r4.large"
+  db_subnet_group_name         = aws_db_subnet_group.aurora_subnet_group_primary.name
+  publicly_accessible          = true
+  performance_insights_enabled = var.rds_performance_insights_enabled
 
   tags = {
     Name        = "${var.environment_name}-Aurora-DB-Instance-${count.index}"
@@ -197,15 +203,16 @@ resource "aws_rds_cluster" "aurora_cluster_secondary" {
 
 resource "aws_rds_cluster_instance" "aurora_cluster_instance_secondary" {
 
-  count                = length(var.vpc_rds_subnet_ids_secondary)
-  engine               = aws_rds_global_cluster.aurora_cluster_global.engine
-  engine_version       = aws_rds_global_cluster.aurora_cluster_global.engine_version
-  provider             = aws.east
-  identifier           = "${var.environment_name}-aurora-instance-secondary-${count.index}"
-  cluster_identifier   = aws_rds_cluster.aurora_cluster_secondary.id
-  instance_class       = "db.r4.large"
-  db_subnet_group_name = aws_db_subnet_group.aurora_subnet_group_secondary.name
-  publicly_accessible  = true
+  count                        = length(var.vpc_rds_subnet_ids_secondary)
+  engine                       = aws_rds_global_cluster.aurora_cluster_global.engine
+  engine_version               = aws_rds_global_cluster.aurora_cluster_global.engine_version
+  provider                     = aws.east
+  identifier                   = "${var.environment_name}-aurora-instance-secondary-${count.index}"
+  cluster_identifier           = aws_rds_cluster.aurora_cluster_secondary.id
+  instance_class               = "db.r4.large"
+  db_subnet_group_name         = aws_db_subnet_group.aurora_subnet_group_secondary.name
+  publicly_accessible          = true
+  performance_insights_enabled = var.rds_performance_insights_enabled
 
   tags = {
     Name        = "${var.environment_name}-Aurora-DB-Instance-secondary-${count.index}"
