@@ -13,7 +13,7 @@ hostname = os.environ['HOSTNAME']
 
 hostname_replaced = hostname.replace('-', '_')
 
-table_name = hostname
+table_name = hostname_replaced
 
 try:
     conn = psycopg2.connect(
